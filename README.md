@@ -46,8 +46,7 @@ To update/create webhook use the below commands
     "name": "webhook name",
     "url": "http://jenkinsIP/job/jobname/",
     "excludeBody" : false 
-    
-   }
+     }
  
 > curl --user admin:admin -X PUT --data { "name": "my first webhook via rest","url": "http://JenkinsIP/job/test","excludeBody" : false } -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
  
@@ -55,6 +54,6 @@ To update/create webhook use the below commands
 # III. how to integrate Jira Service Desk with any monitoring tool for auto-ticketing.
 We can use JiraServiceDesk Rest API to auto-ticketing. Here are some of the curl commands to create an issue/ticket in Jira Service Desk.
 
->> curl -D- -X POST --data { "serviceDeskId": "5","requestTypeId": "95","requestFieldValues": {"summary": "Disk space issue opened by Kapacitor","description": "Disk usage for machine1 is 62.65 and OK" }} -H "Content-Type: application/json" http://admin:password@xx.xx.xx.xx:8080/rest/servicedeskapi/request
+> curl -D- -X POST --data { "serviceDeskId": "5","requestTypeId": "95","requestFieldValues": {"summary": "Disk space issue opened by Kapacitor","description": "Disk usage for machine1 is 62.65 and OK" }} -H "Content-Type: application/json" http://admin:password@xx.xx.xx.xx:8080/rest/servicedeskapi/request
 
 
