@@ -39,6 +39,7 @@
             "Default": "t2.small",
             "AllowedValues": [
                 "t2.micro",
+		"t2.small",
                 "m4.xlarge",
                 "m1.large"
             ],
