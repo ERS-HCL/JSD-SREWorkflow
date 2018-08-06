@@ -12,6 +12,6 @@ pip install --upgrade pexpect
 yum install ansible -y
 
 cd /home/
-git clone https://github.com/sravankumar-n/JSD.git
+git clone https://github.com/ERS-HCL/JSD-SREWorkflow.git
 
-ansible-playbook /home/JSD/jsd_install.yml
+ansible-playbook /home/JSD-SREWorkflow/jsd_install.yml
