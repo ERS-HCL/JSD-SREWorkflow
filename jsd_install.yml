@@ -29,6 +29,8 @@
       echo: yes
       creates: /opt/atlassian/jira/install.reg
     when: not st.stat.exists
+  - name: copy workflow file to config directory
+    copy: src=/home/JSD-SREWorkflow/SRE.zip dest=/var/atlassian/application-data/jira/import/SRE.zip   
   
 #  - name: start jira service desk
 #    shell: /opt/atlassian/jira/bin/startup.sh
