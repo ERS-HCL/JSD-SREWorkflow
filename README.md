@@ -41,7 +41,7 @@ To update/create webhook use the below commands
 > curl --user admin:admin -X PUT -d @webhook.json -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
 
  webhook.json 
- >>
+ >
  { 
     "name": "webhook name",
     "url": "http://jenkinsIP/job/jobname/",
@@ -49,7 +49,7 @@ To update/create webhook use the below commands
     
    }
  
->> curl --user admin:admin -X PUT --data { "name": "my first webhook via rest","url": "http://JenkinsIP/job/test","excludeBody" : false } -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
+> curl --user admin:admin -X PUT --data { "name": "my first webhook via rest","url": "http://JenkinsIP/job/test","excludeBody" : false } -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
  
 
 # III. how to integrate Jira Service Desk with any monitoring tool for auto-ticketing.
