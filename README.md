@@ -38,6 +38,7 @@ http://JSD_ServerIP:8080/
  To update/create webhook use the below commands
   
   curl --user admin:admin -X GET -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/
+  
   curl --user admin:admin -X PUT -d @webhook.json -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
 
 # III. how to integrate Jira Service Desk with any monitoring tool for auto-ticketing.
