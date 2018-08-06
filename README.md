@@ -9,7 +9,7 @@ This workflow capable of auto Remediation for disk usage. In this scenario we co
 # I. Deploy JSD(Jira Service Desk) VM using AWS Cloud Formation
 Deploy JSD server using the AWS Cloud Formation template in AWS CLI
 
-# I.a Configure AWS CLI
+##  I.a Configure AWS CLI
 sudo yum install python-pip -y
 
 Then Execute the below command to deploy Sensu Server/client
@@ -18,18 +18,18 @@ aws cloudformation deploy --template /path/of/template/file/cf_jsd.json --stack-
 
 In above Command provide the path for the template(cf_jsd.json) and provide SSH keypair name which is already available in your region.
 
-# I.b Deploy JSD server using the AWS Cloud Formation template in AWS Console
+##  I.b Deploy JSD server using the AWS Cloud Formation template in AWS Console
 open AWS console in the browser and access Cloud Formation Service and then click on > create stack then browse your template file, then > provide stack name, then select ssh_keypair. After Creation of stack Successful, Collect JSDserver IP in output or EC2 Dashboard of AWS. Then Access Jira Service Desk Dashboard using IP.
 
 http://JSD_ServerIP:8080/
 
 # II. Configuring Jira service Desk with Auto Remediation workflow.
-# II.a Restoring the Jira Service Desk with Auto Remediation Workflow
-Once your instance is ready access the Jira Service Desk, setup minimal setting and provides jira license. Then after restoring the Jira service desk with Auto Remediation workflow by following the steps.
+##  II.a Restoring the Jira Service Desk with Auto Remediation Workflow
+Once your instance is ready access the Jira Service Desk, setup minimal settings and provides jira license. Then restore the Jira service desk with Auto Remediation workflow by following the steps.
 
-settings --system -- Restore System -- then provide the file path to restore --/var/atlassian/application-data/jira/import/SRE.zip
+settings --system -- Restore System --Here provide the value for Configuration file path like  --/var/atlassian/application-data/jira/import/SRE.zip
 
-# II.b Configuring Auto Remediation Workflow
+##  II.b Configuring Auto Remediation Workflow
 once the restore is done, modify the webhook URL with your values. by following the below step
 
 settings -- system -- webhooks --
@@ -40,9 +40,20 @@ curl --user admin:admin -X GET -H "Content-Type: application/json" http://JSDIP:
 
 curl --user admin:admin -X PUT -d @webhook.json -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
 
+ webhook.json 
+ { 
+    "name": "webhook name",
+    "url": "http://jenkinsIP/job/jobname/",
+    "excludeBody" : false 
+    
+   }
+ 
+curl --user admin:admin -X PUT --data { "name": "my first webhook via rest","url": "http://JenkinsIP/job/test","excludeBody" : false } -H "Content-Type: application/json" http://JSDIP:8080/rest/webhooks/1.0/webhook/1
+ 
+
 # III. how to integrate Jira Service Desk with any monitoring tool for auto-ticketing.
 We can use JiraServiceDesk Rest API to auto-ticketing. Here are some of the curl commands to create an issue/ticket in Jira Service Desk.
 
 curl -D- -X POST --data { "serviceDeskId": "5","requestTypeId": "95","requestFieldValues": {"summary": "Disk space issue opened by Kapacitor","description": "Disk usage for machine1 is 62.65 and OK" }} -H "Content-Type: application/json" http://admin:password@xx.xx.xx.xx:8080/rest/servicedeskapi/request
 
-Here we have to provide service deskID and request TypeID.
+
