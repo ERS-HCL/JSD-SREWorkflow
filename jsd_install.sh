@@ -14,4 +14,4 @@ yum install ansible -y
 cd /home/
 git clone https://github.com/ERS-HCL/JSD-SREWorkflow.git
 
-ansible-playbook /home/JSD-SREWorkflow/jsd_install.yml
+ansible-playbook /home/JSD-SREWorkflow/jsd_install.yml >> /home/output.file
