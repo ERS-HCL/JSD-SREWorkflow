@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+  - name: download the atlassian service desk binary for Linux
+    get_url:
+      url: https://product-downloads.atlassian.com/software/jira/downloads/atlassian-servicedesk-3.12.0-x64.bin
+      dest: /tmp/servicedesk.bin
+      mode: 0755
+#  - name: install java
+#    yum: name=java-1.8.0-openjdk state=installed
+  - name: check if jira exists
+    stat:
+      path: /opt/atlassian/jira
+    register: st
+#  - debug:
+#      var: st
+#    when: not st.stat.exists
+
+  - name: install atlassian service desk
+    expect:
+      command: /tmp/servicedesk.bin -c
+      responses:
+        'OK \[o, Enter\], Cancel \[c\]': "o"
+        'Express Install': "1"
+        'Install \[i, Enter\], Exit \[e\]': "i"
+        'Yes \[y, Enter\], No \[n\]': "y"
+      timeout: 600
+      echo: yes
+      creates: /opt/atlassian/jira/install.reg
+    when: not st.stat.exists
+  
+#  - name: start jira service desk
+#    shell: /opt/atlassian/jira/bin/startup.sh

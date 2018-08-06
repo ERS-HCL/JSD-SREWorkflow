@@ -1,0 +1,98 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Create EC2 instances preconfigured with Jira Service Desk",
+    "Mappings": {
+        "RegionMap": {
+            "us-east-1": {
+                "32": "ami-6411e20d",
+                "64": "ami-7a11e213"
+            },
+            "us-west-1": {
+                "32": "ami-c9c7978c",
+                "64": "ami-cfc7978a"
+            },
+            "us-west-2": {
+                "32": "ami-c9c7978c",
+                "64": "ami-28e07e50"
+            },
+            "eu-west-1": {
+                "32": "ami-37c2f643",
+                "64": "ami-31c2f645"
+            },
+            "ap-southeast-1": {
+                "32": "ami-66f28c34",
+                "64": "ami-60f28c32"
+            },
+            "ap-northeast-1": {
+                "32": "ami-9c03a89d",
+                "64": "ami-a003a8a1"
+            }
+        }
+    },
+    "Parameters": {
+        "SSHKey": {
+            "Description": "Select your SSH Key",
+            "Type": "AWS::EC2::KeyPair::KeyName"
+        },
+        "InstanceTypeParameter": {
+            "Type": "String",
+            "Default": "t2.small",
+            "AllowedValues": [
+                "t2.micro",
+                "m4.xlarge",
+                "m1.large"
+            ],
+            "Description": "Select Instancetype. Default is t2.micro."
+        },
+        "InstanceHostname": {
+            "Description": "Select your you instance Hostname",
+            "Type": "String",
+            "Default": "JSD"
+        }
+    },
+    "Resources": {
+        "JSD": {
+            "Type": "AWS::EC2::Instance",
+            "Properties": {
+                "ImageId": {
+                    "Fn::FindInMap": [
+                        "RegionMap",
+                        {
+                            "Ref": "AWS::Region"
+                        },
+                        "64"
+                    ]
+                },
+                "InstanceType": {
+                    "Ref": "InstanceTypeParameter"
+                },
+                "KeyName": {
+                    "Ref": "SSHKey"
+                },
+                "Tags": [
+                    {
+                        "Key": "Name",
+                        "Value": "JSD"
+                    }
+                ],
+                "UserData": {
+                    "Fn::Base64": {
+                        "Fn::Join": [
+                            "\n",
+                            [
+                                "#!/bin/bash",
+                                "curl https://raw.githubusercontent.com/sravankumar-n/JSD/master/jsd_install.sh | bash -s"
+                            ]
+                        ]
+                    }
+                }
+            }
+        }
+    },
+	"Outputs" : {
+    "URL" : {
+      "Value" : { "Fn::Join" : [ "", [ { "Fn::GetAtt" : ["JSD", "PublicIp"] }]]},
+      "Description" : "Server Public IP"
+    }
+  }
+}
